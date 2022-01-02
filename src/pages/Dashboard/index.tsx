@@ -6,13 +6,14 @@ import { Food } from '../../components/Food';
 import { ModalAddFood } from '../../components/ModalAddFood';
 import { ModalEditFood } from '../../components/ModalEditFood';
 import { FoodsContainer } from './styles';
+import { FoodData } from '../../@Types/foodData';
 
 export function Dashboard() {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
-  const [editingFood, setEditingFood] = useState({});
-  const [foods, setFoods] = useState([]);
+  const [editingFood, setEditingFood] = useState({} as FoodData);
+  const [foods, setFoods] = useState<FoodData[]>([]);
 
   useEffect(() => {
     async function loadFoods() {
@@ -24,7 +25,7 @@ export function Dashboard() {
   }, [])
 
 
-  async function handleAddFood(food) {
+  async function handleAddFood(food: FoodData) {
 
     try {
       const response = await api.post('/foods', {
@@ -38,7 +39,7 @@ export function Dashboard() {
     }
   }
 
-  async function handleUpdateFood(food) {
+  async function handleUpdateFood(food: FoodData) {
     try {
       const foodUpdated = await api.put(
         `/foods/${editingFood.id}`,
@@ -55,7 +56,7 @@ export function Dashboard() {
     }
   }
 
-  async function handleDeleteFood(id) {
+  async function handleDeleteFood(id: number) {
 
     await api.delete(`/foods/${id}`);
 
@@ -72,7 +73,7 @@ export function Dashboard() {
     setEditModalOpen(!editModalOpen)
   }
 
-  function handleEditFood(food) {
+  function handleEditFood(food: FoodData) {
     setEditingFood(food)
     setEditModalOpen(true)
   }
